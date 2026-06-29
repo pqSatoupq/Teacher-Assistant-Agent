@@ -1,47 +1,50 @@
 # 👨‍🏫 Teacher Assistant Agent
 
-A lightweight Streamlit web application designed specifically for Thai teachers and document workers. This tool leverages the Google Gemini API to transform rough, casual notes into highly formal, perfectly structured documents (using formal Thai official language - ภาษาราชการ).
+A smart, AI-powered Streamlit web application designed specifically for Thai teachers. It takes your rough, casual notes and instantly transforms them into beautifully formatted, ready-to-print official government documents (such as Official Memos, Lesson Plans, and Letters to Parents) using formal Thai official language (ภาษาราชการ).
 
 ## ✨ Features
+* **Multi-Model Support:** Connects to Google Gemini, OpenAI (ChatGPT), and Anthropic (Claude).
+* **"Bring Your Own Key" (BYOK):** Users enter their own API keys in the sidebar, which are saved securely to a local SQLite database, meaning the app host doesn't pay for usage!
+* **Knowledge Base:** Upload `.txt`, `.pdf`, `.docx`, and `.xlsx` files as reference context (similar to NotebookLM).
+* **Strict Thai Formatting:** Uses `python-docx` and HTML templates to rigorously enforce Thai government document standards (TH Sarabun font, exact margins, correct Krut/Header sizes).
+* **Export Options:** 
+  - Download as `.docx` (Microsoft Word)
+  - Download as `.html` (Perfect A4 print preview to save as PDF via Ctrl+P)
 
-- **Multiple Document Types**: Generate Official Memos (บันทึกข้อความ), Lesson Plans (แผนการสอน), Letters to Parents (จดหมายแจ้งผู้ปกครอง), Project Proposals (โครงการ), and Meeting Minutes (รายงานการประชุม).
-- **Formal Thai Language**: Automatically enforces correct bureaucratic terminology and polite phrasing suitable for Thai schools.
-- **Export to Word**: Download generated documents as Microsoft Word (`.docx`) files for easy printing, signing, and submission.
-- **API Key Management**: Securely save your Google Gemini API key and select your preferred model (e.g., `gemini-1.5-flash`, `gemini-1.5-pro`) directly in the app.
-- **Local History**: Automatically saves a history of your generated documents to a local SQLite database.
+## 🚀 How to Run Locally
 
-## 🚀 Quick Start (Local Windows)
-
-If you have Python installed, you can easily run this locally:
-1. Double click on `run.bat`
-2. The script will automatically install dependencies and launch the app in your default web browser.
-
-## 💻 Manual Installation
-
-1. Clone this repository.
-2. Open your terminal in the project folder and install the required dependencies:
+1. **Clone the repository:**
+   ```bash
+   git clone <your-github-repo-url>
+   cd Teacher-Assistant-Agent
+   ```
+2. **Create a virtual environment (Optional but recommended):**
+   ```bash
+   python -m venv .venv
+   .venv\Scripts\activate  # On Windows
+   source .venv/bin/activate # On Mac/Linux
+   ```
+3. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
-3. Run the Streamlit app:
+4. **Run the app:**
    ```bash
    streamlit run app.py
    ```
+*(Alternatively, on Windows, just double-click the `run.bat` file!)*
 
-## ☁️ Deploying to Streamlit Community Cloud
+## ☁️ Deploying to Streamlit Cloud
 
-This app is ready to be hosted on Streamlit Community Cloud so anyone can access it via a web link.
-1. Push this repository to your GitHub account.
-2. Go to [Streamlit Community Cloud](https://share.streamlit.io/).
-3. Log in with your GitHub account, click **Deploy an app**, and select this repository.
-4. Set the "Main file path" to `app.py`.
-5. Click **Deploy!**
+Deploying this app so your friends can use it over the internet is incredibly easy and **free**!
 
-*(Note: Because this app uses a local SQLite database (`documents.db`), the document history will reset periodically when the Streamlit Cloud server restarts. The app will still function perfectly for generating new documents!)*
+1. Push this folder to a new **Public Repository** on your GitHub account.
+2. Go to [Streamlit Community Cloud](https://share.streamlit.io/) and log in with your GitHub account.
+3. Click **"New app"**.
+4. Select your newly created repository, set the branch to `main`, and the main file path to `app.py`.
+5. Click **"Deploy!"**
 
-## 🔑 Getting a Gemini API Key
-
-1. Go to [Google AI Studio](https://aistudio.google.com/).
-2. Sign in with your Google account.
-3. Click **Get API key** on the left menu and create a new key.
-4. Paste the key into the Settings sidebar inside the application.
+### 🔐 Note on Streamlit Cloud "Secrets"
+You **do not** need to configure any Advanced Settings or Secrets for API keys on Streamlit Cloud for this app! 
+Because the app features a UI sidebar where users type their own API keys, your friends can simply visit your Streamlit link, open the sidebar, type their own free API key, and start generating. 
+*(Note: Streamlit Cloud occasionally resets the virtual server when idle, which will clear the `documents.db` database and forget the saved API keys. Users will just have to paste their key again when that happens).*

@@ -26,6 +26,15 @@ def init_db():
             value TEXT
         )
     ''')
+    # Sources table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS sources (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            filename TEXT,
+            content TEXT
+        )
+    ''')
     conn.commit()
     conn.close()
 
@@ -56,3 +65,28 @@ def get_setting(key, default_value=""):
     result = c.fetchone()
     conn.close()
     return result[0] if result else default_value
+
+def save_source(filename, content):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO sources (filename, content)
+        VALUES (?, ?)
+    ''', (filename, content))
+    conn.commit()
+    conn.close()
+
+def get_all_sources():
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('SELECT id, filename, content FROM sources ORDER BY date_created DESC')
+    results = c.fetchall()
+    conn.close()
+    return results
+
+def delete_source(source_id):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('DELETE FROM sources WHERE id = ?', (source_id,))
+    conn.commit()
+    conn.close()

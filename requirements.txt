@@ -1,3 +1,8 @@
 streamlit
 google-generativeai
 python-docx
+openai
+anthropic
+PyPDF2
+openpyxl
+pandas
